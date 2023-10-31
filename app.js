@@ -5,9 +5,16 @@ const AWS = require('aws-sdk');
 const app = express();
 app.use(express.json());
 
+AWS.config.update({
+  region: process.env.AWS_REGION,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  sessionToken: process.env.AWS_SESSION_TOKEN
+});
+
 const s3 = new AWS.S3();
 
-const bucketName = 'your-bucket-name';
+const bucketName = process.env.CYCLIC_BUCKET_NAME; // Endret til å bruke miljøvariabel
 const fileName = 'saved_text.json';
 
 app.post('/', async (req, res) => {
